@@ -1,37 +1,37 @@
- <script src="{{ asset('Assets') }}/js/jquery.min.js"></script>
- <script src="{{ asset('Assets') }}/js/popper.min.js"></script>
- <script src="{{ asset('Assets') }}/js/moment.min.js"></script>
- <script src="{{ asset('Assets') }}/js/bootstrap.min.js"></script>
- <script src="{{ asset('Assets') }}/js/simplebar.min.js"></script>
- <script src='{{ asset('Assets') }}/js/daterangepicker.js'></script>
- <script src='{{ asset('Assets') }}/js/jquery.stickOnScroll.js'></script>
- <script src="{{ asset('Assets') }}/js/tinycolor-min.js"></script>
- <script src="{{ asset('Assets') }}/js/config.js"></script>
- <script src="{{ asset('Assets') }}/js/d3.min.js"></script>
- <script src="{{ asset('Assets') }}/js/topojson.min.js"></script>
- <script src="{{ asset('Assets') }}/js/datamaps.all.min.js"></script>
- <script src="{{ asset('Assets') }}/js/datamaps-zoomto.js"></script>
- <script src="{{ asset('Assets') }}/js/datamaps.custom.js"></script>
- <script src="{{ asset('Assets') }}/js/Chart.min.js"></script>
- <script>
-     /* defind global options */
+<script src="{{ asset('Assets') }}/js/jquery.min.js"></script>
+<script src="{{ asset('Assets') }}/js/popper.min.js"></script>
+<script src="{{ asset('Assets') }}/js/moment.min.js"></script>
+<script src="{{ asset('Assets') }}/js/bootstrap.min.js"></script>
+<script src="{{ asset('Assets') }}/js/simplebar.min.js"></script>
+<script src='{{ asset(' Assets') }}/js/daterangepicker.js'></script>
+<script src='{{ asset(' Assets') }}/js/jquery.stickOnScroll.js'></script>
+<script src="{{ asset('Assets') }}/js/tinycolor-min.js"></script>
+<script src="{{ asset('Assets') }}/js/config.js"></script>
+<script src="{{ asset('Assets') }}/js/d3.min.js"></script>
+<script src="{{ asset('Assets') }}/js/topojson.min.js"></script>
+<script src="{{ asset('Assets') }}/js/datamaps.all.min.js"></script>
+<script src="{{ asset('Assets') }}/js/datamaps-zoomto.js"></script>
+<script src="{{ asset('Assets') }}/js/datamaps.custom.js"></script>
+<script src="{{ asset('Assets') }}/js/Chart.min.js"></script>
+<script>
+    /* defind global options */
      Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
      Chart.defaults.global.defaultFontColor = colors.mutedColor;
- </script>
- <script src="{{ asset('Assets') }}/js/gauge.min.js"></script>
- <script src="{{ asset('Assets') }}/js/jquery.sparkline.min.js"></script>
- <script src="{{ asset('Assets') }}/js/apexcharts.min.js"></script>
- <script src="{{ asset('Assets') }}/js/apexcharts.custom.js"></script>
- <script src='{{ asset('Assets') }}/js/jquery.mask.min.js'></script>
- <script src='{{ asset('Assets') }}/js/select2.min.js'></script>
- <script src='{{ asset('Assets') }}/js/jquery.steps.min.js'></script>
- <script src='{{ asset('Assets') }}/js/jquery.validate.min.js'></script>
- <script src='{{ asset('Assets') }}/js/jquery.timepicker.js'></script>
- <script src='{{ asset('Assets') }}/js/dropzone.min.js'></script>
- <script src='{{ asset('Assets') }}/js/uppy.min.js'></script>
- <script src='{{ asset('Assets') }}/js/quill.min.js'></script>
- <script>
-     $('.select2').select2({
+</script>
+<script src="{{ asset('Assets') }}/js/gauge.min.js"></script>
+<script src="{{ asset('Assets') }}/js/jquery.sparkline.min.js"></script>
+<script src="{{ asset('Assets') }}/js/apexcharts.min.js"></script>
+<script src="{{ asset('Assets') }}/js/apexcharts.custom.js"></script>
+<script src='{{ asset(' Assets') }}/js/jquery.mask.min.js'></script>
+<script src='{{ asset(' Assets') }}/js/select2.min.js'></script>
+<script src='{{ asset(' Assets') }}/js/jquery.steps.min.js'></script>
+<script src='{{ asset(' Assets') }}/js/jquery.validate.min.js'></script>
+<script src='{{ asset(' Assets') }}/js/jquery.timepicker.js'></script>
+<script src='{{ asset(' Assets') }}/js/dropzone.min.js'></script>
+<script src='{{ asset(' Assets') }}/js/uppy.min.js'></script>
+<script src='{{ asset(' Assets') }}/js/quill.min.js'></script>
+<script>
+    $('.select2').select2({
          theme: 'bootstrap4',
      });
      $('.select2-multi').select2({
@@ -181,9 +181,9 @@
              });
          }, false);
      })();
- </script>
- <script>
-     var uptarg = document.getElementById('drag-drop-area');
+</script>
+<script>
+    var uptarg = document.getElementById('drag-drop-area');
      if (uptarg) {
          var uppy = Uppy.Core().use(Uppy.Dashboard, {
              inline: true,
@@ -200,23 +200,23 @@
              console.log('Upload complete! We’ve uploaded these files:', result.successful)
          });
      }
- </script>
- <script src="{{ asset('Assets') }}/js/apps.js"></script>
- <!-- Global site tag (gtag.js) - Google Analytics -->
- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
- <script>
-     window.dataLayer = window.dataLayer || [];
+</script>
+<script src="{{ asset('Assets') }}/js/apps.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
 
      function gtag() {
          dataLayer.push(arguments);
      }
      gtag('js', new Date());
      gtag('config', 'UA-56159088-1');
- </script>
+</script>
 
- {{-- Search Scripts --}}
- <script>
-     jQuery(document).ready(function($) {
+{{-- Search Scripts --}}
+<script>
+    jQuery(document).ready(function($) {
          // Toggle filters panel with smooth animation
          $('#toggle-filters').click(function() {
              var $panel = $('#filters-panel');
@@ -243,4 +243,85 @@
              }
          });
      });
- </script>
+</script>
+
+<script>
+    // ── Dashboard Charts ────────────────────────────────────────────────
+(function () {
+    if (!document.getElementById('booksChart')) return;
+
+    var palette = ['#2563eb','#059669','#ea580c','#9333ea','#eab308','#06b6d4','#f43f5e','#84cc16'];
+    var categoryLabels    = ['روايات', 'أدب عالمي', 'تقنية', 'علم النفس', 'تاريخ', 'إدارة', 'علوم', 'ديني'];
+    var categoryBookCounts = [25, 18, 22, 14, 16, 10, 8, 7];
+
+    // Bar Chart
+    new Chart(document.getElementById('booksChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: categoryLabels,
+            datasets: [{
+                label: 'عدد الكتب',
+                data: categoryBookCounts,
+                backgroundColor: palette.map(function(c){ return c + 'cc'; }),
+                borderColor: palette,
+                borderWidth: 2,
+                borderRadius: 6,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1e2235',
+                    titleColor: '#e0e0e0',
+                    bodyColor: '#9ca3af',
+                    borderColor: 'rgba(255,255,255,.08)',
+                    borderWidth: 1,
+                    rtl: true,
+                    textDirection: 'rtl',
+                }
+            },
+            scales: {
+                x: { ticks: { color: '#8b949e', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,.05)' } },
+                y: { beginAtZero: true, ticks: { color: '#8b949e', stepSize: 1, font: { size: 11 } }, grid: { color: 'rgba(255,255,255,.05)' } }
+            }
+        }
+    });
+
+    // Doughnut Chart
+    new Chart(document.getElementById('categoryChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: categoryLabels,
+            datasets: [{
+                data: categoryBookCounts,
+                backgroundColor: palette.map(function(c){ return c + 'cc'; }),
+                borderColor: '#1e2235',
+                borderWidth: 3,
+                hoverOffset: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '68%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#9ca3af', padding: 14, font: { size: 11 }, usePointStyle: true }
+                },
+                tooltip: {
+                    backgroundColor: '#1e2235',
+                    titleColor: '#e0e0e0',
+                    bodyColor: '#9ca3af',
+                    borderColor: 'rgba(255,255,255,.08)',
+                    borderWidth: 1,
+                }
+            }
+        }
+    });
+})();
+</script>

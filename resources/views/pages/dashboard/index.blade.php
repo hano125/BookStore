@@ -1,323 +1,343 @@
-@extends('layouts.master')
+@extends("layouts.master")
+
+@section('title', 'لوحة التحكم')
+
 @section('content')
-    @php
-        $statusLabels = [
-            'pending' => 'قيد الانتظار',
-            'completed' => 'مكتمل',
-            'approved' => 'تمت الموافقة',
-            'rejected' => 'مرفوض',
-            'archived' => 'مؤرشف',
-        ];
-        $statusColors = [
-            'pending' => 'warning',
-            'completed' => 'success',
-            'approved' => 'primary',
-            'rejected' => 'danger',
-            'archived' => 'secondary',
-        ];
-    @endphp
 
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                {{-- Page Header --}}
-                <div class="row align-items-center mb-2">
-                    <div class="col">
-                        <h2 class="h5 page-title">مرحباً، {{ Auth::user()->name }}!</h2>
-                    </div>
-                </div>
+<div class="container-fluid" dir="rtl">
 
-                {{-- Summary Cards --}}
-                <div class="row mb-4">
-                    <div class="col-6 col-lg-3">
-                        <div class="card shadow mb-4">
-                            <div class="card-body text-center py-4">
-                                <span class="fe fe-book-open fe-24 text-primary mb-2 d-block"></span>
-                                <p class="mb-1 small text-muted">إجمالي الكتب</p>
-                                <span class="h3">{{ $totalBooks }}</span><br />
-                                @if ($monthlyGrowth >= 0)
-                                    <span class="small text-success">+{{ $monthlyGrowth }}%</span>
-                                    <span class="fe fe-arrow-up text-success fe-12"></span>
-                                @else
-                                    <span class="small text-danger">{{ $monthlyGrowth }}%</span>
-                                    <span class="fe fe-arrow-down text-danger fe-12"></span>
-                                @endif
-                                {{-- <p class="small text-muted mb-0 mt-1">مقارنة بالشهر الماضي</p> --}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="card shadow mb-4">
-                            <div class="card-body text-center py-4">
-                                <span class="fe fe-clock fe-24 text-warning mb-2 d-block"></span>
-                                <p class="mb-1 small text-muted">قيد الانتظار</p>
-                                <span class="h3">{{ $pendingCount }}</span><br />
-                                <span class="small text-muted">من أصل {{ $totalBooks }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="card shadow mb-4">
-                            <div class="card-body text-center py-4">
-                                <span class="fe fe-check-circle fe-24 text-success mb-2 d-block"></span>
-                                <p class="mb-1 small text-muted">مكتمل / موافق عليه</p>
-                                <span class="h3">{{ $completedCount + $approvedCount }}</span><br />
-                                <span class="small text-muted">من أصل {{ $totalBooks }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="card shadow mb-4">
-                            <div class="card-body text-center py-4">
-                                <span class="fe fe-x-circle fe-24 text-danger mb-2 d-block"></span>
-                                <p class="mb-1 small text-muted">مرفوض</p>
-                                <span class="h3">{{ $rejectedCount }}</span><br />
-                                <span class="small text-muted">من أصل {{ $totalBooks }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    {{-- Page Header --}}
+    <div class="row justify-content-between align-items-center mb-4 mt-3">
+        <div class="col-auto">
+            <h2 class="h3 mb-0 page-title" style="color:#e0e0e0; font-weight:700;">لوحة التحكم</h2>
+            <p class="text-muted mb-0" style="font-size:.85rem;">مرحباً بك، المستخدم</p>
+        </div>
+        <div class="col-auto">
+            <span class="text-muted" style="font-size:.82rem;">
+                <i class="fe fe-calendar fe-14 mr-1"></i>
+                الإثنين، 03 مارس 2026
+            </span>
+        </div>
+    </div>
 
-                {{-- Status Breakdown & Monthly Chart --}}
-                <div class="row mb-4">
-                    <div class="col-md-12 col-lg-4">
-                        <div class="card shadow eq-card mb-4">
-                            <div class="card-header">
-                                <strong class="card-title">توزيع حالات الكتب</strong>
-                            </div>
-                            <div class="card-body">
-                                @foreach (['pending', 'completed', 'approved', 'rejected', 'archived'] as $status)
-                                    @php
-                                        $count = ${$status . 'Count'} ?? ($statusCounts[$status] ?? 0);
-                                        $percentage = $totalBooks > 0 ? round(($count / $totalBooks) * 100, 1) : 0;
-                                    @endphp
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span class="small text-muted">{{ $statusLabels[$status] }}</span>
-                                            <span class="small font-weight-bold">{{ $count }}</span>
-                                        </div>
-                                        <div class="progress" style="height: 8px;">
-                                            <div class="progress-bar bg-{{ $statusColors[$status] }}" role="progressbar"
-                                                style="width: {{ $percentage }}%" aria-valuenow="{{ $percentage }}"
-                                                aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+    {{-- ===== Stats Cards ===== --}}
+    <div class="row mb-4">
 
-                                <div class="border-top pt-3 mt-3">
-                                    <div class="row text-center">
-                                        <div class="col-4">
-                                            <p class="mb-1 small text-muted">هذا الشهر</p>
-                                            <h5 class="mb-0">{{ $booksThisMonth }}</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <p class="mb-1 small text-muted">الشهر الماضي</p>
-                                            <h5 class="mb-0">{{ $booksLastMonth }}</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <p class="mb-1 small text-muted">مؤرشف</p>
-                                            <h5 class="mb-0">{{ $archivedCount }}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        {{-- Total Books --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow border-0 h-100"
+                style="background:linear-gradient(135deg,#1e40af,#2563eb);border-radius:14px;">
+                <div class="card-body d-flex align-items-center justify-content-between py-4 px-4">
+                    <div>
+                        <p class="mb-1"
+                            style="color:rgba(255,255,255,.75);font-size:.8rem;font-weight:600;letter-spacing:.05rem;">
+                            إجمالي الكتب
+                        </p>
+                        <h3 class="mb-0 font-weight-bold" style="color:#fff;font-size:2rem;">120</h3>
+                        <small style="color:rgba(255,255,255,.6);">في المكتبة</small>
                     </div>
-
-                    <div class="col-md-12 col-lg-4">
-                        <div class="card shadow eq-card mb-4">
-                            <div class="card-header">
-                                <strong class="card-title">الكتب حسب القسم</strong>
-                            </div>
-                            <div class="card-body">
-                                @forelse ($booksByDepartment as $dept)
-                                    @php
-                                        $deptPercentage =
-                                            $totalBooks > 0 ? round(($dept['count'] / $totalBooks) * 100, 1) : 0;
-                                    @endphp
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span class="small text-muted">{{ $dept['name'] }}</span>
-                                            <span class="small font-weight-bold">{{ $dept['count'] }}</span>
-                                        </div>
-                                        <div class="progress" style="height: 8px;">
-                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                style="width: {{ $deptPercentage }}%"
-                                                aria-valuenow="{{ $deptPercentage }}" aria-valuemin="0"
-                                                aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <p class="text-muted text-center mb-0">لا توجد بيانات</p>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 col-lg-4">
-                        <div class="card shadow eq-card mb-4">
-                            <div class="card-header">
-                                <strong class="card-title">إحصائيات عامة</strong>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-4 mt-2">
-                                    <div class="flex-fill">
-                                        <span class="fe fe-users fe-24 text-primary"></span>
-                                    </div>
-                                    <div class="flex-fill">
-                                        <p class="mb-0 text-muted small">المستخدمون النشطون</p>
-                                        <h4 class="mb-0">{{ $totalUsers }}</h4>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="flex-fill">
-                                        <span class="fe fe-grid fe-24 text-success"></span>
-                                    </div>
-                                    <div class="flex-fill">
-                                        <p class="mb-0 text-muted small">الأقسام</p>
-                                        <h4 class="mb-0">{{ $totalDepartments }}</h4>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="flex-fill">
-                                        <span class="fe fe-tag fe-24 text-warning"></span>
-                                    </div>
-                                    <div class="flex-fill">
-                                        <p class="mb-0 text-muted small">الوسوم</p>
-                                        <h4 class="mb-0">{{ $totalTags }}</h4>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-fill">
-                                        <span class="fe fe-archive fe-24 text-secondary"></span>
-                                    </div>
-                                    <div class="flex-fill">
-                                        <p class="mb-0 text-muted small">الكتب المؤرشفة</p>
-                                        <h4 class="mb-0">{{ $archivedCount }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Monthly Chart --}}
-                <div class="card shadow mb-4">
-                    <div class="card-header">
-                        <strong class="card-title">الكتب خلال آخر 6 أشهر</strong>
-                    </div>
-                    <div class="card-body">
-                        <div class="row align-items-end" style="height: 200px;">
-                            @foreach ($monthlyData as $data)
-                                @php
-                                    $maxCount = $monthlyData->max('count');
-                                    $barHeight = $maxCount > 0 ? ($data['count'] / $maxCount) * 100 : 0;
-                                @endphp
-                                <div class="col text-center">
-                                    <div class="d-flex flex-column align-items-center justify-content-end h-100">
-                                        <span class="small font-weight-bold mb-1">{{ $data['count'] }}</span>
-                                        <div class="bg-primary rounded"
-                                            style="width: 40px; height: {{ max($barHeight, 5) }}%; min-height: 4px;">
-                                        </div>
-                                        <span class="small text-muted mt-2">{{ $data['month'] }}</span>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    {{-- Recent Activity --}}
-                    <div class="col-md-12 col-lg-4 mb-4">
-                        <div class="card timeline shadow">
-                            <div class="card-header">
-                                <strong class="card-title">آخر التحديثات</strong>
-                            </div>
-                            <div class="card-body" data-simplebar
-                                style="height:355px; overflow-y: auto; overflow-x: hidden;">
-                                @forelse ($recentActivities as $activity)
-                                    @php
-                                        $color = $statusColors[$activity->new_status] ?? 'info';
-                                    @endphp
-                                    <div class="pb-3 timeline-item item-{{ $color }}">
-                                        <div class="pl-5">
-                                            <div class="mb-1">
-                                                <strong>{{ $activity->changer?->name ?? 'نظام' }}</strong>
-                                                <span class="text-muted small mx-1">غيّر حالة</span>
-                                                <strong>{{ $activity->book?->title ?? '-' }}</strong>
-                                            </div>
-                                            <p class="small mb-1">
-                                                <span
-                                                    class="badge badge-{{ $statusColors[$activity->old_status] ?? 'light' }}">{{ $statusLabels[$activity->old_status] ?? $activity->old_status }}</span>
-                                                <span class="fe fe-arrow-left mx-1"></span>
-                                                <span
-                                                    class="badge badge-{{ $statusColors[$activity->new_status] ?? 'light' }}">{{ $statusLabels[$activity->new_status] ?? $activity->new_status }}</span>
-                                            </p>
-                                            @if ($activity->note)
-                                                <p class="small text-muted mb-1">{{ $activity->note }}</p>
-                                            @endif
-                                            <p class="small text-muted mb-0">
-                                                <span
-                                                    class="badge badge-light">{{ $activity->created_at->diffForHumans() }}</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <p class="text-muted text-center">لا توجد تحديثات حديثة</p>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Recent Books Table --}}
-                    <div class="col-md-12 col-lg-8">
-                        <div class="card shadow">
-                            <div class="card-header">
-                                <strong class="card-title">آخر الكتب</strong>
-                                <a class="float-right small text-muted" href="{{ route('books.index') }}">عرض الكل</a>
-                            </div>
-                            <div class="card-body my-n2">
-                                <table class="table table-striped table-hover table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>العنوان</th>
-                                            <th>القسم</th>
-                                            <th>الحالة</th>
-                                            <th>التاريخ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($recentBooks as $book)
-                                            <tr>
-                                                <td>{{ $book->book_no }}</td>
-                                                <td>
-                                                    <strong>{{ Str::limit($book->title, 30) }}</strong>
-                                                </td>
-                                                <td>{{ $book->department?->deparment_name ?? '-' }}</td>
-                                                <td>
-                                                    <span
-                                                        class="badge badge-{{ $statusColors[$book->status] ?? 'info' }}">
-                                                        {{ $statusLabels[$book->status] ?? $book->status }}
-                                                    </span>
-                                                </td>
-                                                <td>{{ $book->received_date }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center text-muted">لا توجد كتب</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div style="background:rgba(255,255,255,.15);border-radius:50%;width:56px;height:56px;
+                                display:flex;align-items:center;justify-content:center;">
+                        <i class="fe fe-book-open" style="color:#fff;font-size:1.5rem;"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        {{-- Categories --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow border-0 h-100"
+                style="background:linear-gradient(135deg,#065f46,#059669);border-radius:14px;">
+                <div class="card-body d-flex align-items-center justify-content-between py-4 px-4">
+                    <div>
+                        <p class="mb-1"
+                            style="color:rgba(255,255,255,.75);font-size:.8rem;font-weight:600;letter-spacing:.05rem;">
+                            التصنيفات
+                        </p>
+                        <h3 class="mb-0 font-weight-bold" style="color:#fff;font-size:2rem;">8</h3>
+                        <small style="color:rgba(255,255,255,.6);">تصنيف نشط</small>
+                    </div>
+                    <div style="background:rgba(255,255,255,.15);border-radius:50%;width:56px;height:56px;
+                                display:flex;align-items:center;justify-content:center;">
+                        <i class="fe fe-tag" style="color:#fff;font-size:1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Users --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow border-0 h-100"
+                style="background:linear-gradient(135deg,#7c2d12,#ea580c);border-radius:14px;">
+                <div class="card-body d-flex align-items-center justify-content-between py-4 px-4">
+                    <div>
+                        <p class="mb-1"
+                            style="color:rgba(255,255,255,.75);font-size:.8rem;font-weight:600;letter-spacing:.05rem;">
+                            المستخدمون
+                        </p>
+                        <h3 class="mb-0 font-weight-bold" style="color:#fff;font-size:2rem;">43</h3>
+                        <small style="color:rgba(255,255,255,.6);">مستخدم مسجل</small>
+                    </div>
+                    <div style="background:rgba(255,255,255,.15);border-radius:50%;width:56px;height:56px;
+                                display:flex;align-items:center;justify-content:center;">
+                        <i class="fe fe-users" style="color:#fff;font-size:1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Books Added This Month --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow border-0 h-100"
+                style="background:linear-gradient(135deg,#581c87,#9333ea);border-radius:14px;">
+                <div class="card-body d-flex align-items-center justify-content-between py-4 px-4">
+                    <div>
+                        <p class="mb-1"
+                            style="color:rgba(255,255,255,.75);font-size:.8rem;font-weight:600;letter-spacing:.05rem;">
+                            إضافات هذا الشهر
+                        </p>
+                        <h3 class="mb-0 font-weight-bold" style="color:#fff;font-size:2rem;">12</h3>
+                        <small style="color:rgba(255,255,255,.6);">كتاب جديد</small>
+                    </div>
+                    <div style="background:rgba(255,255,255,.15);border-radius:50%;width:56px;height:56px;
+                                display:flex;align-items:center;justify-content:center;">
+                        <i class="fe fe-trending-up" style="color:#fff;font-size:1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>{{-- /Stats Cards --}}
+
+    {{-- ===== Chart + Recent Books ===== --}}
+    <div class="row mb-4">
+
+        {{-- Bar Chart: Books per Category --}}
+        <div class="col-xl-7 mb-4">
+            <div class="card shadow border-0 h-100"
+                style="background:#1e2235;border-radius:14px;border:1px solid rgba(255,255,255,.06);">
+                <div class="card-header d-flex align-items-center justify-content-between"
+                    style="background:transparent;border-bottom:1px solid rgba(255,255,255,.07);padding:1rem 1.5rem;">
+                    <h6 class="mb-0" style="color:#e0e0e0;font-weight:600;">
+                        <i class="fe fe-bar-chart-2 fe-16 mr-2" style="color:#2563eb;"></i>
+                        الكتب حسب التصنيف
+                    </h6>
+                </div>
+                <div class="card-body" style="padding:1.25rem 1.5rem;">
+                    <canvas id="booksChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {{-- Category Doughnut --}}
+        <div class="col-xl-5 mb-4">
+            <div class="card shadow border-0 h-100"
+                style="background:#1e2235;border-radius:14px;border:1px solid rgba(255,255,255,.06);">
+                <div class="card-header d-flex align-items-center justify-content-between"
+                    style="background:transparent;border-bottom:1px solid rgba(255,255,255,.07);padding:1rem 1.5rem;">
+                    <h6 class="mb-0" style="color:#e0e0e0;font-weight:600;">
+                        <i class="fe fe-pie-chart fe-16 mr-2" style="color:#9333ea;"></i>
+                        توزيع التصنيفات
+                    </h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center" style="padding:1.25rem;">
+                    <canvas id="categoryChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>{{-- /Charts --}}
+
+    {{-- ===== Latest Books Table ===== --}}
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow border-0"
+                style="background:#1e2235;border-radius:14px;border:1px solid rgba(255,255,255,.06);">
+                <div class="card-header d-flex align-items-center justify-content-between"
+                    style="background:transparent;border-bottom:1px solid rgba(255,255,255,.07);padding:1rem 1.5rem;">
+                    <h6 class="mb-0" style="color:#e0e0e0;font-weight:600;">
+                        <i class="fe fe-list fe-16 mr-2" style="color:#059669;"></i>
+                        آخر الكتب المضافة
+                    </h6>
+                    {{-- @can('books.view')
+                    <a href="{{ route('books.index') }}" class="btn btn-sm btn-outline-primary"
+                        style="font-size:.78rem;border-radius:8px;">
+                        عرض الكل
+                    </a>
+                    @endcan --}}
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" style="color:#c9d1d9;">
+                            <thead style="background:rgba(255,255,255,.04);">
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.07);">
+                                    <th
+                                        style="padding:.9rem 1.5rem;font-size:.78rem;color:#8b949e;font-weight:600;border:none;">
+                                        #</th>
+                                    <th
+                                        style="padding:.9rem 1rem;font-size:.78rem;color:#8b949e;font-weight:600;border:none;">
+                                        عنوان الكتاب</th>
+                                    <th
+                                        style="padding:.9rem 1rem;font-size:.78rem;color:#8b949e;font-weight:600;border:none;">
+                                        التصنيف</th>
+                                    <th
+                                        style="padding:.9rem 1rem;font-size:.78rem;color:#8b949e;font-weight:600;border:none;">
+                                        المؤلف</th>
+                                    <th
+                                        style="padding:.9rem 1rem;font-size:.78rem;color:#8b949e;font-weight:600;border:none;">
+                                        تاريخ الإضافة</th>
+                                    <th
+                                        style="padding:.9rem 1rem;font-size:.78rem;color:#8b949e;font-weight:600;border:none;">
+                                        الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">1</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">مئة
+                                        عام من العزلة</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">روايات</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">غابرييل
+                                        غارسيا ماركيز</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        01/03/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">2</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">الأمير
+                                        الصغير</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">أدب
+                                            عالمي</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">أنطوان
+                                        دو سانت إكزوبيري</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        28/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">3</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">في قلب
+                                        الكود</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">تقنية</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">أحمد
+                                        الشمري</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        25/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">4</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">علم
+                                        النفس للجميع</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">علم
+                                            النفس</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">سارة
+                                        الحربي</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        20/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">5</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">تاريخ
+                                        العالم القديم</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">تاريخ</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">محمد
+                                        العمري</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        15/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">6</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">فن
+                                        الحرب</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">إدارة</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">سون تزو
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        10/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">7</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">
+                                        رياضيات الحياة اليومية</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">علوم</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">نورة
+                                        البلوي</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        05/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;">
+                                    <td style="padding:.85rem 1.5rem;border:none;color:#8b949e;font-size:.83rem;">8</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-weight:500;font-size:.88rem;">الذكاء
+                                        الاصطناعي للمبتدئين</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(37,99,235,.18);color:#60a5fa;padding:2px 10px;border-radius:20px;font-size:.78rem;">تقنية</span>
+                                    </td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.85rem;color:#9ca3af;">عمر
+                                        الغامدي</td>
+                                    <td style="padding:.85rem 1rem;border:none;font-size:.82rem;color:#6b7280;">
+                                        01/02/2026</td>
+                                    <td style="padding:.85rem 1rem;border:none;">
+                                        <span
+                                            style="background:rgba(5,150,105,.18);color:#34d399;padding:2px 10px;border-radius:20px;font-size:.78rem;">نشط</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>{{-- /Latest Books --}}
+
+</div>{{-- /container-fluid --}}
+
 @endsection
