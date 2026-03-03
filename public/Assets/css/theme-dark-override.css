@@ -1,0 +1,482 @@
+/* =============================================
+   TailAdmin-Inspired Dark Theme Override
+   Color Palette:
+     - Page bg:    #0B1120
+     - Sidebar:    #111827
+     - Cards:      #1E2636
+     - Card hover: #243042
+     - Borders:    #2A3441
+     - Navbar:     #111827
+     - Text:       #C9D1D9
+     - Muted:      #8B949E
+     - Headings:   #E6EDF3
+     - Primary:    #3B82F6 (blue-500)
+     - Accent:     #60A5FA (blue-400)
+   ============================================= */
+
+/* --- Root / Body --- */
+body {
+    background-color: #0B1120 !important;
+    color: #C9D1D9 !important;
+}
+
+/* --- Headings --- */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #E6EDF3 !important;
+}
+
+/* --- Sidebar --- */
+.sidebar-left,
+.vertical .sidebar-left,
+.vertical.hover .sidebar-left,
+.narrow.open .sidebar-left {
+    background-color: #111827 !important;
+    border-left: none !important;
+    box-shadow: 1px 0 0 #1E293B !important;
+}
+
+.sidebar-left .navbar-brand {
+    color: #E6EDF3 !important;
+}
+
+.sidebar-left .nav-heading {
+    color: #4B5563 !important;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+}
+
+.sidebar-left .navbar-nav > .nav-item > a {
+    color: #9CA3AF !important;
+    transition: all 0.2s ease;
+}
+
+.sidebar-left .navbar-nav > .nav-item > a:hover {
+    color: #E6EDF3 !important;
+    background-color: rgba(59, 130, 246, 0.08) !important;
+}
+
+.sidebar-left .navbar-nav > .nav-item.active > a,
+.sidebar-left .navbar-nav > .nav-item > a.active {
+    color: #60A5FA !important;
+    background-color: rgba(59, 130, 246, 0.12) !important;
+}
+
+.vertical .sidebar-left .navbar-nav > .nav-item.active:after,
+.vertical.hover .sidebar-left .navbar-nav > .nav-item.active:after,
+.narrow.open .sidebar-left .navbar-nav > .nav-item.active:after {
+    background-color: #3B82F6 !important;
+}
+
+/* Sub-menu */
+.sidebar-left .navbar-nav .nav-item .collapse .nav-item a,
+.sidebar-left .navbar-nav .nav-item ul.show .nav-item a {
+    color: #6B7280 !important;
+}
+
+.sidebar-left .navbar-nav .nav-item .collapse .nav-item a:hover,
+.sidebar-left .navbar-nav .nav-item ul.show .nav-item a:hover {
+    color: #60A5FA !important;
+}
+
+.sidebar-left .navbar-nav .nav-item .collapse .nav-item.active a,
+.sidebar-left .navbar-nav .nav-item ul.show .nav-item.active a {
+    color: #60A5FA !important;
+}
+
+/* --- Top Navbar --- */
+.topnav.navbar {
+    background-color: #111827 !important;
+    border-bottom: 1px solid #1E293B !important;
+    box-shadow: none !important;
+}
+
+.topnav .nav-link {
+    color: #9CA3AF !important;
+}
+
+.topnav .nav-link:hover {
+    color: #E6EDF3 !important;
+}
+
+.topnav .form-control {
+    background-color: transparent !important;
+    color: #C9D1D9 !important;
+}
+
+.topnav .form-control::placeholder {
+    color: #4B5563 !important;
+}
+
+/* --- Cards --- */
+.card {
+    background-color: #1E2636 !important;
+    border: 1px solid #2A3441 !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+.card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #2A3441 !important;
+}
+
+.card-footer {
+    background-color: transparent !important;
+    border-top: 1px solid #2A3441 !important;
+}
+
+.card-title {
+    color: #E6EDF3 !important;
+}
+
+/* --- Tables --- */
+.table {
+    color: #C9D1D9 !important;
+}
+
+.table thead th {
+    background-color: #151D2E !important;
+    color: #8B949E !important;
+    border-bottom: 1px solid #2A3441 !important;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.table td, .table th {
+    border-top: 1px solid #1E293B !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.04) !important;
+    color: #E6EDF3 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* --- Forms --- */
+.form-control {
+    background-color: #151D2E !important;
+    border: 1px solid #2A3441 !important;
+    color: #C9D1D9 !important;
+    border-radius: 0.5rem !important;
+}
+
+.form-control:focus {
+    background-color: #1A2332 !important;
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+    color: #E6EDF3 !important;
+}
+
+.form-control::placeholder {
+    color: #4B5563 !important;
+}
+
+.custom-select {
+    background-color: #151D2E !important;
+    border: 1px solid #2A3441 !important;
+    color: #C9D1D9 !important;
+}
+
+.custom-file-label {
+    background-color: #151D2E !important;
+    border: 1px solid #2A3441 !important;
+    color: #8B949E !important;
+}
+
+.custom-file-label::after {
+    background-color: #2A3441 !important;
+    color: #C9D1D9 !important;
+    border-right: 1px solid #2A3441 !important;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    background-color: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #2563EB !important;
+    border-color: #2563EB !important;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35) !important;
+}
+
+.btn-outline-primary {
+    color: #60A5FA !important;
+    border-color: #3B82F6 !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+    color: #fff !important;
+}
+
+.btn-outline-secondary {
+    color: #8B949E !important;
+    border-color: #2A3441 !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #2A3441 !important;
+    color: #E6EDF3 !important;
+}
+
+/* --- Alerts --- */
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
+    color: #6EE7B7 !important;
+}
+
+.alert-danger {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.2) !important;
+    color: #FCA5A5 !important;
+}
+
+.alert-warning {
+    background-color: rgba(245, 158, 11, 0.1) !important;
+    border-color: rgba(245, 158, 11, 0.2) !important;
+    color: #FCD34D !important;
+}
+
+.alert-info {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border-color: rgba(59, 130, 246, 0.2) !important;
+    color: #93C5FD !important;
+}
+
+/* --- Badges --- */
+.badge-primary {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    color: #60A5FA !important;
+}
+
+.badge-success {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    color: #6EE7B7 !important;
+}
+
+.badge-warning {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+    color: #FCD34D !important;
+}
+
+.badge-danger {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    color: #FCA5A5 !important;
+}
+
+.badge-info {
+    background-color: rgba(59, 130, 246, 0.12) !important;
+    color: #60A5FA !important;
+}
+
+.badge-secondary {
+    background-color: rgba(107, 114, 128, 0.15) !important;
+    color: #9CA3AF !important;
+}
+
+.badge-light {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #C9D1D9 !important;
+}
+
+/* --- Dropdowns --- */
+.dropdown-menu {
+    background-color: #1E2636 !important;
+    border: 1px solid #2A3441 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 0.5rem !important;
+}
+
+.dropdown-item {
+    color: #C9D1D9 !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: rgba(59, 130, 246, 0.08) !important;
+    color: #E6EDF3 !important;
+}
+
+.dropdown-divider {
+    border-top-color: #2A3441 !important;
+}
+
+/* --- Modals --- */
+.modal-content {
+    background-color: #1E2636 !important;
+    border: 1px solid #2A3441 !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4) !important;
+    border-radius: 0.75rem !important;
+}
+
+.modal-header {
+    border-bottom-color: #2A3441 !important;
+}
+
+.modal-footer {
+    border-top-color: #2A3441 !important;
+}
+
+/* --- List Groups --- */
+.list-group-item {
+    background-color: #1E2636 !important;
+    border-color: #2A3441 !important;
+    color: #C9D1D9 !important;
+}
+
+.list-group-item:hover {
+    background-color: #243042 !important;
+}
+
+/* --- Pagination --- */
+.page-link {
+    background-color: #1E2636 !important;
+    border-color: #2A3441 !important;
+    color: #8B949E !important;
+}
+
+.page-link:hover {
+    background-color: #243042 !important;
+    color: #E6EDF3 !important;
+}
+
+.page-item.active .page-link {
+    background-color: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+    color: #fff !important;
+}
+
+/* --- Progress Bars --- */
+.progress {
+    background-color: #151D2E !important;
+}
+
+.progress-bar {
+    background-color: #3B82F6 !important;
+}
+
+/* --- Borders & Dividers --- */
+.border {
+    border-color: #2A3441 !important;
+}
+
+hr {
+    border-top-color: #1E293B !important;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0B1120;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2A3441;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3B4B5F;
+}
+
+/* --- Muted Text --- */
+.text-muted {
+    color: #8B949E !important;
+}
+
+/* --- Links --- */
+a {
+    color: #60A5FA;
+}
+
+a:hover {
+    color: #93C5FD;
+}
+
+/* --- Custom Controls (Checkbox/Radio) --- */
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+}
+
+.custom-control-label::before {
+    background-color: #151D2E !important;
+    border-color: #2A3441 !important;
+}
+
+/* --- Nav Tabs --- */
+.nav-tabs {
+    border-bottom-color: #2A3441 !important;
+}
+
+.nav-tabs .nav-link {
+    color: #8B949E !important;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #2A3441 !important;
+    color: #E6EDF3 !important;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #1E2636 !important;
+    border-color: #2A3441 #2A3441 #1E2636 !important;
+    color: #E6EDF3 !important;
+}
+
+/* --- Backgrounds Override --- */
+.bg-white {
+    background-color: #1E2636 !important;
+}
+
+.bg-light {
+    background-color: #151D2E !important;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    background-color: #0B1120 !important;
+}
+
+/* --- Selection --- */
+::selection {
+    background-color: rgba(59, 130, 246, 0.3);
+    color: #E6EDF3;
+}
+
+/* --- Avatar circle border --- */
+.avatar-img {
+    border: 2px solid #2A3441;
+}
+
+/* --- Notification dot --- */
+.dot.bg-success {
+    background-color: #10B981 !important;
+}
+
+/* --- Charts canvas area --- */
+.chart-container {
+    background-color: transparent !important;
+}
